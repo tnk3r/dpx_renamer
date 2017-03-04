@@ -12,3 +12,7 @@ brew install python-dev
 sudo pip install python-qt4
 
 Or wait until I compile it to an app.
+
+On OSX Sierra, install PyQt4 from brew (may break soon)
+
+brew install cartr/qt4/qt

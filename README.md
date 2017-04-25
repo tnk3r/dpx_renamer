@@ -2,17 +2,8 @@
 
 simple file dialog to rename dpx files saved from resolve. Linux/OSX. Doesn't work on windows, 
 
-You'll need to
+Use the script at your own risk, the script will stop if it finds a DPX file which did not contain the filename Info. EI: a imported still saved into the gallery from a still, etc.. Works fine with video files for now.
 
-brew install python-qt4 
-brew install python-dev
+App Tested on Yosemite 10.10.5. 
 
- or
-
-sudo pip install python-qt4
-
-Or wait until I compile it to an app.
-
-On OSX Sierra, install PyQt4 from brew (may break soon)
-
-brew install cartr/qt4/qt
+Binary File works with Linux, no need for .deb

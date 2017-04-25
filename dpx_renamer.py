@@ -1,5 +1,6 @@
 #!/usr/bin/python
-from PyQt4.QtGui import QMainWindow, QApplication, QFileDialog
+from PyQt4.QtGui import QMainWindow, QApplication, QFileDialog, QDialog, QPushButton, QLabel
+from PyQt4.QtCore import QString
 import os, sys
 controller = QApplication(sys.argv)
 
@@ -7,12 +8,25 @@ class window(QMainWindow):
     def __init__(self, parent=None):
         QMainWindow.__init__(self, parent=None)
         self.files = str(QFileDialog.getExistingDirectory(self, "Select Directory containing Resolve DPX stills"))
+        self.Error = QString("")
         self.process_stills()
         sys.exit(0)
+
+    def showdialog(self):
+        d = QDialog(self)
+        d.setFixedSize(300, 100)
+        label = QLabel(self.Error, d)
+        label.move(20, 20)
+        b1 = QPushButton("Ok",d)
+        b1.move(125,50)
+        d.setWindowTitle("Error !")
+        b1.clicked.connect(controller.quit)
+        d.exec_()
 
     def process_stills(self):
         os.chdir(self.files)
         drx_files, stills, processed = [], [], []
+        print self.files
         for x in os.listdir(self.files):
             if ".drx" in x:
                 drx_files.append(x)
@@ -40,10 +54,14 @@ class window(QMainWindow):
                                 processed.append(newName+".dpx")
                                 counter = 1
                             try:
-                                os.system("mv "+str(still.replace("dpx", "drx"))+" "+newName+".drx")
-                                os.system("mv "+str(stills[stills.index(still)])+" "+newName+".dpx")
+                                command = "mv "+str(still.replace("dpx", "drx"))+" "+newName+".drx"
+                                print command
+                                os.system(str(command))
+                                command2 = "mv "+str(stills[stills.index(still)])+" "+newName+".dpx"
+                                os.system(str(command2))
                             except StandardError as msg:
-                                print "Error: "+str(msg)
+                                self.Error.swap("Something is wrong with the Selected Stills")
+                                self.showdialog()
 
 main = window()
 main.show()
